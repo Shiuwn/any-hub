@@ -115,7 +115,9 @@ export class Rect {
   }
 }
 
-export type MethodKeys<T> = keyof {
-  [k in keyof T as T[k] extends (...args: any[]) => any ? k : never]: T[k]
+export const DownloadFunc = {
+  action: () => {},
+  download() {
+    this.action()
+  }
 }
-

@@ -1,8 +1,7 @@
 import { FC, useContext, useEffect, useRef } from "react";
-import { StoreContext } from "../App";
-import { Store } from "../store";
 import { Rect, Text } from "../utils";
-
+import { Store, StoreContext } from "../App";
+import { DownloadFunc } from "../utils";
 
 const render = (dom: HTMLCanvasElement, data: Store) => {
   const ctx = dom.getContext('2d')
@@ -11,19 +10,19 @@ const render = (dom: HTMLCanvasElement, data: Store) => {
   const height = dom.height
   ctx.fillStyle = '#000000'
   ctx.fillRect(0, 0, width, height)
-  const { text } = data
+  const { text, fontSize } = data
   const padding = {
-    left: 6,
-    right: 6,
-    top: 4,
-    bottom: 10
+    left: 4,
+    right: 4,
+    top: 8,
+    bottom: 4
   }
 
   const textDrawable = text.map((t, i) => {
     return new Text(ctx, {
       text: t,
       color: i === 0 ? '#ffffff' : '#000000',
-      font: 'bold 52px fantasy',
+      font: `bold ${fontSize}px sans-serif`,
       padding
     })
   })
@@ -35,8 +34,6 @@ const render = (dom: HTMLCanvasElement, data: Store) => {
     const { x, y } = t0.getPosition()
     t1.setPosition(x + t0.width, y)
   }
-
-
 
   const rectDrawable = textDrawable.map((t, i) => {
     const { x, y } = t.getPosition()
@@ -58,21 +55,24 @@ const render = (dom: HTMLCanvasElement, data: Store) => {
 const MainPanel: FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const store = useContext(StoreContext)
-
+  const { state } = store as { state: Store }
   useEffect(() => {
     if (!canvasRef.current) return
     const { current: dom } = canvasRef
+    render(dom, state)
+    DownloadFunc.action = () => {
+      console.log('click')
+      const link = document.createElement('a')
+      link.setAttribute('download', 'any-hub')
+      link.href = dom.toDataURL('image/png')
+      link.click()
+    }
 
-    render(dom, store)
-    store.add(() => {
-      render(dom, store)
-    })
-
-  }, [canvasRef, store])
+  }, [canvasRef, state])
 
   return (
     <div className="flex justify-center flex-grow">
-      <canvas ref={canvasRef} width={store.size[0]} height={store.size[1]} className="m-auto"></canvas>
+      <canvas ref={canvasRef} width={state.size[0]} height={state.size[1]} className="m-auto"></canvas>
     </div>
   )
 }
