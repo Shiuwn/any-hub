@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/any-hub/static/css/main.f91e33dd.css",
+    "main.js": "/any-hub/static/js/main.c8e8ace3.js",
+    "index.html": "/any-hub/index.html",
+    "main.f91e33dd.css.map": "/any-hub/static/css/main.f91e33dd.css.map",
+    "main.c8e8ace3.js.map": "/any-hub/static/js/main.c8e8ace3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f91e33dd.css",
+    "static/js/main.c8e8ace3.js"
+  ]
+}
