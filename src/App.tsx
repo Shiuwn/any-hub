@@ -1,4 +1,4 @@
-import React, { useReducer, ReducerState, ReducerAction, Dispatch, Reducer } from 'react';
+import React, { useReducer, ReducerState, ReducerAction, Dispatch } from 'react';
 import './App.css';
 import Nav from './components/Nav';
 import Sidebar from './components/Sidebar';
@@ -19,7 +19,7 @@ const reducer = (state: Store, action: Action) => {
   return { ...state, [action.type]: action.payload }
 }
 
-export const StoreContext = React.createContext<{state: ReducerState<typeof reducer>, dispatch: Dispatch<ReducerAction<typeof reducer>>}|null>(null)
+export const StoreContext = React.createContext<{ state: ReducerState<typeof reducer>, dispatch: Dispatch<ReducerAction<typeof reducer>> } | null>(null)
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initState)
